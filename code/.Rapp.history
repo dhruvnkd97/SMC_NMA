@@ -1,0 +1,7 @@
+library(readr)#
+library(dplyr)#
+library(tidyr)#
+library(tibble)#
+library(meta)#
+library(netmeta)#
+library(dmetar)
