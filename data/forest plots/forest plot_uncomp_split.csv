@@ -1,0 +1,19 @@
+comparison,source,est,lo,hi,p_incoherence
+SPAQ,direct,0.2685,0.2515,0.2877,
+SPAQ,indirect,0.1594,0.1013,0.254,
+SPAQ,network,0.2533,0.2376,0.2711,0.025
+SPAS / SP (monthly),direct,0.389,0.3115,0.4886,
+SPAS / SP (monthly),indirect,0.3147,0.2186,0.4478,
+SPAS / SP (monthly),network,0.365,0.3011,0.4413,0.3115
+DHAPQ,direct,0.0422,0.0307,0.0589,
+DHAPQ,indirect,0.3549,0.2888,0.4343,
+DHAPQ,network,0.1955,0.1648,0.2311,0.00001
+ASAQ,direct,0.2546,0.1858,0.3489,
+ASAQ,indirect,0.5032,0.3567,0.7284,
+ASAQ,network,0.325,0.2559,0.4109,0.003
+SP (bimonthly),direct,0.5478,0.4539,0.6611,
+SP (bimonthly),indirect,2.8924,0.8428,9.9267,
+SP (bimonthly),network,0.5265,0.4353,0.6368,0.0074
+ASAQ (bimonthly),direct,0.7153,0.5643,0.9067,
+ASAQ (bimonthly),indirect,0.3981,0.1734,0.9137,
+ASAQ (bimonthly),network,0.6844,0.5448,0.8597,0.1838
