@@ -14,7 +14,7 @@ library(rjags)
 
 # Load data ####
 
- sm_data <- read_csv("data/smc_nma_severe malaria.csv") 
+ sm_data <- read_csv("smc_nma_severe malaria.csv") 
 
 # Frequentist  NMA ####
 

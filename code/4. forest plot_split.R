@@ -9,7 +9,7 @@ library(svglite)
 library(tools)
 
 # Load and clean data ####
-forest_split_plot <-  read.csv("forest plot_split.csv")
+forest_split_plot <-  read.csv("forest plot_split_dp.csv")
 
     # --- Label p-values column 
     fmt_p <- function(p) ifelse(is.na(p), "",
@@ -84,14 +84,14 @@ forest_split_plot <-  read.csv("forest plot_split.csv")
       ticks <- ticks_all[ticks_all >= clip[1] & ticks_all <= clip[2]]
 
 
-      tbl$is_summary <- is.na(tbl$source)
-      row_type <- ifelse(is.na(tbl$source), "header", as.character(tbl$source))
-
+      tbl$row_class <- ifelse(is.na(tbl$source), "header", as.character(tbl$source))
+      is.sum <- is.na(tbl$source)
 
       # Functions to draw values
       fun_list <- list()
       for (i in 1:nrow(tbl)) {
         if (tbl$row_class[i] == "header") {
+          # Headers get an empty function
           fun_list[[i]] <- function(mean, lower, upper, size, ...) { NULL }
         } else if (tbl$row_class[i] == "direct") {
           fun_list[[i]] <- function(mean, lower, upper, size, ...) {
@@ -99,18 +99,21 @@ forest_split_plot <-  read.csv("forest plot_split.csv")
           }
         } else if (tbl$row_class[i] == "indirect") {
           fun_list[[i]] <- function(mean, lower, upper, size, ...) {
-            fpDrawCircleCI(mean, lower, upper, size, gp = gpar(fill = "white", col = "#1f78b4", lwd = 1.5), ...)
+            fpDrawNormalCI(mean, lower, upper, size, gp = gpar(fill = "white", col = "#1f78b4", lwd = 1.5), ...)
           }
         } else if (tbl$row_class[i] == "network") {
           fun_list[[i]] <- function(mean, lower, upper, size, ...) {
-            fpDrawDiamondCI(mean, lower, upper, size, gp = gpar(fill = "black", col = "black"), ...)
+            fpDrawNormalCI(mean, lower, upper, size, gp = gpar(fill = "black", col = "black"), ...)
           }
         }
       }
       
       
    #Forest plot ####   
-      svglite("plots/forest_split.svg", width = 11, height = 6.5)
+      svglite("forest_split_dp.svg", width = 11, height = 6.5)
+      
+      styles_matrix <- matrix("plain", nrow = nrow(tbl), ncol = ncol(labeltext))
+      styles_matrix[tbl$row_class == "header" | tbl$row_class == "network", ] <- "bold"
       
       forestplot(
         labeltext  = labeltext,
@@ -118,10 +121,10 @@ forest_split_plot <-  read.csv("forest plot_split.csv")
         lower      = lower, 
         upper      = upper,
         is.summary = is.sum,
-        fn.ci_norm = fun_list,
+        fn.ci_geom = fun_list,
         xlog       = TRUE, 
         zero       = 1, 
-        clip       = clip_limits,
+     #   clip       = clip_limits,
         xticks     = ticks,
         graph.pos  = 3,
         lwd.ci     = 1.5, 
@@ -136,7 +139,7 @@ forest_split_plot <-  read.csv("forest plot_split.csv")
         lineheight = unit(0.65, "cm"),               
         colgap     = unit(6, "mm"),               
         xlab       = "Incidence Rate Ratio",
-        title      = "Incoherence in Network Estimates\nAntimalarials vs Placebo/No SMC",
+        title      = "Incoherence analysis\nDHAPQ vs Placebo/No SMC",
         align      = c("l", "l", "r", "r")
       )
       

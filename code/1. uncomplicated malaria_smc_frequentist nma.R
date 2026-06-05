@@ -89,7 +89,6 @@ library(dmetar)
     sortvar = TE,
     smlab = "SMC vs placebo",
     test.overall.common = TRUE,
-    # test.overall.random = TRUE,
     overall = TRUE,
     xlim = c(0.05, 10),
     hetstat = "common",
@@ -97,9 +96,6 @@ library(dmetar)
     label.right = "Favors placebo",
     labels = long_labels,
     fontsize = 11,
-    # print.I2    = FALSE,
-    # print.tau2  = FALSE,
-    # print.pval  = FALSE,
     cex = 0.85
   )
   

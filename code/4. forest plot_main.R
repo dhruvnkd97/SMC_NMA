@@ -25,7 +25,7 @@ nma_forest_main <- read.csv("plots/forest_main.csv")
     rng <- range(nma_forest_main$weight) #range of weights
 
     boxsz <- if (diff(rng) == 0) {
-      rep(0.35, nrow(nma_forest_main))  # Constant box size if all weights equal
+      rep(0.35, nrow(nma_forest_main))  
     } else {
       0.15 + 0.45 * (nma_forest_main$weight - rng[1]) / diff(rng)  # Rescale all ranges from 0.15–0.60
     }

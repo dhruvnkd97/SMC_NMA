@@ -105,13 +105,15 @@ smc_u5data <- read.csv("data/smc_nma_u5_uncomplicated.csv", stringsAsFactors = F
                 "Chandramohan2021",
                 "Bojang2010",
                 "Sokhna2008",
-                "Kweku2008"),
+                "Kweku2008",
+                "Cisse2009"),
     baseline_se = c(0.055727821,
                     0.113960576,
                     0.056888012,
                     0.5,
                     0.136082763,
-                    0.073922127)
+                    0.073922127,
+                    0.2182179)
                       )         #Calculated as SE(λ) = 1/sqrt(y); where y = No. events (counts) in arm 
 
   smc_data_long <- smc_data_long %>%
@@ -160,15 +162,23 @@ smc_u5data <- read.csv("data/smc_nma_u5_uncomplicated.csv", stringsAsFactors = F
 
   summary(smc_network, use.description = TRUE) #summary of network
 
-  svglite(filename = file.path(out_dir, "network_plot.svg"), width = 11, height = 5.825)
+  svglite(filename = file.path("plots/network_plot.svg"), width = 5, height = 5)
   plot(
-    smc_network,
+    sm_network,
     use.description = TRUE,
-    vertex.color = "yellow",
+    vertex.color = "orange",
     vertex.label.color = "black",
     vertex.label.family = "Arial",
-    vertex.label.dist = 2.1,
-    vertex.label.cex = 0.8
+    vertex.label.dist = 2,
+    vertex.label.cex = 0.9,
+    vertex.label.font = 2,     # bold
+    edge.label = edge_counts$nr,
+    edge.label.cex = 0.9,
+    edge.label.color = "black",
+    edge.label.family = "Arial",
+    edge.label.font = 2,     # bold
+    edge.color = "grey55",
+    dynamic.edge.width = TRUE
   )
   dev.off()
 
@@ -195,17 +205,6 @@ smc_u5data <- read.csv("data/smc_nma_u5_uncomplicated.csv", stringsAsFactors = F
                            n.iter = 10000, 
                            thin = 10)
 
-    # Random effects model
-    # smc_model_re <- mtc.model(
-    #  smc_network,
-    #  likelihood  = "normal",
-    #  link        = "identity",
-    #  linearModel = "random",
-    #  n.chain     = 4
-    #  )
-    
-    # mcmc_re_quick <- mtc.run(smc_model_re, n.adapt = 50, n.iter = 1000,   thin = 10)
-    # mcmc_re_main  <- mtc.run(smc_model_re, n.adapt = 5000, n.iter = 10000, thin = 10)
 
   # Model diagnostics
     plot(mcmc_ce_quick)
@@ -525,10 +524,6 @@ smc_u5data <- read.csv("data/smc_nma_u5_uncomplicated.csv", stringsAsFactors = F
   summary(mcmc_pfpr) 
   
   
-  s
-  
-  
-  
   
 # Meta-regression 5: Risk of bias ####
   
@@ -603,8 +598,10 @@ smc_u5data <- read.csv("data/smc_nma_u5_uncomplicated.csv", stringsAsFactors = F
     n.chain     = 4
   )
   
-  mcmc_wa_quick <- mtc.run(bnma_model_wa, n.adapt = 50,   n.iter = 1000,   thin = 10)
-  mcmc_wa_main  <- mtc.run(bnma_model_wa, n.adapt = 5000, n.iter = 100000, thin = 10)
+  mcmc_wa_main  <- mtc.run(bnma_model_wa, 
+                           n.adapt = 5000, 
+                           n.iter = 10000, 
+                           thin = 10)
   
   
       # Node-splitting 
@@ -614,7 +611,7 @@ smc_u5data <- read.csv("data/smc_nma_u5_uncomplicated.csv", stringsAsFactors = F
         likelihood  = "normal",
         link        = "identity",
         n.adapt     = 5000,
-        n.iter      = 100000,
+        n.iter      = 10000,
         thin        = 10
       )
       nodesplit_wa_sum <- summary(nodesplit_wa)
